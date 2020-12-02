@@ -29,15 +29,14 @@ RUN mkdir /opt/picard-2.18.1/ \
     && ln -s /opt/picard-2.18.1 /opt/picard \
     && ln -s /opt/picard-2.18.1 /usr/picard
 
-ENV BWA_VERSION 0.7.15
 
-RUN cd /tmp/ \
-    && wget -q http://downloads.sourceforge.net/project/bio-bwa/bwa-${BWA_VERSION}.tar.bz2 && tar xvf bwa-${BWA_VERSION}.tar.bz2 \
-    && cd /tmp/bwa-${BWA_VERSION} \
-    && sed -i 's/CFLAGS=\\t\\t-g -Wall -Wno-unused-function -O2/CFLAGS=-g -Wall -Wno-unused-function -O2 -static/' Makefile \
-    && make \
-    && cp /tmp/bwa-${BWA_VERSION}/bwa /usr/local/bin \
-    && rm -rf /tmp/bwa-${BWA_VERSION}
+
+ENV BWA_VERSION 2-2.1
+RUN cd /opt/ \
+    && wget -q https://github.com/bwa-mem2/bwa-mem2/releases/download/v2.1/bwa-mem${BWA_VERSION}_x64-linux.tar.bz2 \
+    && tar -xjvf bwa-mem${BWA_VERSION}_x64-linux.tar.bz2 \
+    && cp /opt/bwa-mem${BWA_VERSION}_x64-linux/bwa-mem2* /usr/local/bin/ \
+    && rm -rf bwa-mem${BWA_VERSION}_x64-linux.tar.bz2
 
 RUN cd /tmp/ \
     && git clone https://github.com/GregoryFaust/samblaster.git \
